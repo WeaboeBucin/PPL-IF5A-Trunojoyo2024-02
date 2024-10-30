@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
+use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated
@@ -21,6 +22,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                Alert :: info('Anda sudah login sebagai ' . $guard . ' !', 'Silahkan logout terlebih dahulu untuk mengakses halaman ini.');
                 return redirect(RouteServiceProvider::HOME);
             }
         }
